@@ -1,4 +1,4 @@
-file = 'c2.wav' ;
+function PCP = PCPextractor(file);
 [y,Fs,bits] = wavread(file); 
 
 N = length(y); 
@@ -19,4 +19,5 @@ for p = 1:12,
   PCP(p) = ((y_fft.^2)')*kroneckerDel(M, (p-1)*ones(N/2, 1)) ;
 endfor
 
-PCP = PCP./sum(PCP) 
+PCP = PCP./sum(PCP);
+endfunction;
