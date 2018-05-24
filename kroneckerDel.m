@@ -1,3 +1,3 @@
-function d = kronDel(j,k)
+function d = kroneckerDel(j,k)
   d = j == k ;
 endfunction
