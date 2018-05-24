@@ -1,5 +1,4 @@
-import numpy
-import scipy.io.wavfile
+import numpy, scipy.io.wavfile
 from matplotlib import pyplot
 print("Enter file path")
 path=input()
@@ -17,4 +16,6 @@ pcp=numpy.zeros(12)
 for i in range(12):
 	pcp[i]=numpy.dot(y,(M==(i*numpy.ones(k))))
 pcp/=numpy.sum(pcp)
-print(pcp)
+with pyplot.xkcd():
+	pyplot.plot(pcp)
+pyplot.show()
