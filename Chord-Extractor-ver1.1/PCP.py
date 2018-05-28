@@ -7,7 +7,7 @@ def pcp(path) :
     fs,y = scipy.io.wavfile.read(path)
     n = np.size(y)
     k = int(n/2)
-    y = np.transpose(np.square(np.absolute(np.fft.fft(y))[:k]))
+    y = np.transpose(np.square(np.absolute(np.fft.rfft(y))[:k]))
     if ((y.shape()))
     pcp = np.zeros(12)
     fref = 130.8
