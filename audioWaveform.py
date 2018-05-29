@@ -1,10 +1,9 @@
 import matplotlib.pyplot as plot
 import numpy as np
-import scipy.io.wavfile
-
+import soundfile as sf
 #Enter filename below
-filename = 'a1.wav'
-fs,y = scipy.io.wavfile.read(filename)
+filename = 't.wav'
+y, fs = sf.read(filename)
 
 time=np.linspace(0, len(y)/fs, num=len(y))
 
