@@ -21,10 +21,10 @@ for i in range(0, (X.shape)[0]) :
 #logRegr = LogisticRegression()
 #logRegr.fit(X, y)
 #print(logRegr.predict(X))
-model = MLPClassifier(solver='sgd',activation='logistic',
-                       alpha=1e-2, hidden_layer_sizes=(50,),
-                       momentum=0.25, random_state=1)
-#model = SGDClassifier(learning_rate='constant', eta0=0.1, max_iter=200, tol = 1e-3)
+#model = MLPClassifier(solver='sgd',activation='logistic',
+ #                      alpha=1e-2, hidden_layer_sizes=(50,),
+    #                   momentum=0.25, random_state=1)
+model = SGDClassifier(learning_rate='constant', eta0=0.1, max_iter=200, tol = 1e-3)
 model.fit(X, y)
 #print(model.predict(X))
 filename = 'trained_NN_ver3.sav'
