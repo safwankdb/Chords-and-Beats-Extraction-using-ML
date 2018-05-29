@@ -18,7 +18,9 @@ y = np.zeros((X.shape)[0])
 counter = 0
 value = 1
 for i in range((X.shape)[0]) :
-    counter%=200
+    if counter == 200 :
+        value += 1
+        counter = 0
     y[i] = value
     counter += 1
 #logRegr = logReg()
