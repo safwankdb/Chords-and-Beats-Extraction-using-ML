@@ -33,10 +33,10 @@ def analyse(file, model) :
     duration = len(f)/f.samplerate
     i = 0
     all_chords = []
-    while i + 0.1 < duration:
+    while i + 0.25 < duration:
         o_name = "output.wav"
-        make_part(file, str(i), "0.1", o_name)
-        i += 0.1
+        make_part(file, str(i), "0.25", o_name)
+        i += 0.25
         all_chords.append(find_chord(model, o_name))
         cmd = "del /f output.wav"
         os.system(cmd)
