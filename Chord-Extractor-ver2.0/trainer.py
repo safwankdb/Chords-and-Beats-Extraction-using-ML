@@ -1,7 +1,7 @@
 import numpy as np
 import pickle
-from NC import CtoN
-from NC import NtoC
+from utilities import CtoN
+from utilities import NtoC
 from PCP import pcp
 
 #To use the trainer keep the .wav file in the same folder as trainer
