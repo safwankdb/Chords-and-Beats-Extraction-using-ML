@@ -79,3 +79,4 @@ parameter.featureRate = sideinfo.CRP.featureRate;
 parameter.xlabel = 'Time [Seconds]';
 parameter.title = 'CRP chromagram';
 visualizeCRP(CRP,parameter);
+end
