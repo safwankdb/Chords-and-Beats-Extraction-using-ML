@@ -33,13 +33,13 @@ myModel = pickle.load(open('trained_NN_ver2.sav', 'rb'))
 
 def analyse(file, model) :
     f = sf.SoundFile(file)
-    duration = len(f)/f.samplerate
+    duration = len(f) / f.samplerate
     i = 0
     all_chords = []
-    while i + 0.1 < duration:
+    while i + 0.2 <= duration:
         o_name = "output.wav"
-        make_part(file, str(i), "0.1", o_name)
-        i += 0.1
+        make_part(file, str(i), "0.2", o_name)
+        i += 0.2
         all_chords.append(find_chord(model, o_name))
         cmd = "del /f output.wav"
         os.system(cmd)
@@ -52,18 +52,18 @@ def chord_sequence(model, file) :
     final_chords = []
     while duration > 0 :
         o_name = "foo.wav"
-        if duration > 1 :
-            make_part(file, str(i), "1", o_name)
+        if duration > 0.6 :
+            make_part(file, str(i), "0.6", o_name)
         else :
-            if duration > 0.5 :
+            if duration > 0.3 :
                 make_part(file, str(i), str(duration), o_name)
             else :
                 final_chords.append("null")
                 break
         analysis = analyse(o_name, model)
         final_chords.append(max(set(analysis), key= analysis.count))
-        i += 1
-        duration -= 1
+        i += 0.6
+        duration -= 0.6
         cmd = "del /f foo.wav"
         os.system(cmd)
     return final_chords
