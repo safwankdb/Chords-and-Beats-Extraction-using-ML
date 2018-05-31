@@ -5,6 +5,9 @@ import scipy.io.wavfile
 import pickle
 import numpy as np
 
+N_to_C={1:'A',2:'Am',3:'Bm',4:'C',5:'D',6:'Dm',7:'E',8:'Em',9:'F',10:'G'}
+C_to_N = {v: k for k, v in N_to_C.items()}
+
 def make_part(file, start, time, name) :
     cmd = "C:/ffmpeg/bin/ffmpeg.exe -ss " +  start + " -t " + time + " -i " + file + " " + name
     os.system(cmd)
@@ -66,45 +69,9 @@ def chord_sequence(model, file) :
     return final_chords
 
 def NtoC(n) :
-    if (n == 1) :
-        return "A"
-    elif (n == 2) :
-        return "Am"
-    elif (n == 3):
-        return "Bm"
-    elif (n == 4):
-        return "C"
-    elif (n == 5):
-        return "D"
-    elif (n == 6):
-        return "Dm"
-    elif (n == 7):
-        return "E"
-    elif (n == 8):
-        return "Em"
-    elif (n == 9):
-        return "F"
-    elif (n == 10) :
-        return "G"
+    if n in range(1,11):
+    return N_to_C[n]    
 
 def CtoN(c) :
-    if (c == "A") :
-        return 1
-    elif (c == "Am") :
-        return 2
-    elif (c == "Bm") :
-        return 3
-    elif (c == "C") :
-        return 4
-    elif (c == "D") :
-        return 5
-    elif (c == "Dm") :
-        return 6
-    elif (c == "E") :
-        return 7
-    elif (c == "Em") :
-        return 8
-    elif (c == "F") :
-        return 9
-    elif (c == "G") :
-        return 10
+    if c in C_to_N.keys:
+        return C_to_N[c]

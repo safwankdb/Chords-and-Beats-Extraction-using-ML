@@ -2,7 +2,7 @@ import matplotlib.pyplot as plot
 import numpy as np
 import soundfile as sf
 #Enter filename below
-filename = 't.wav'
+filename = '../sampleConverted'
 y, fs = sf.read(filename)
 
 time=np.linspace(0, len(y)/fs, num=len(y))

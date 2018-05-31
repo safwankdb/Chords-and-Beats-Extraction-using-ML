@@ -14,7 +14,7 @@ def pcp(path) :
         y = convStoM(y)
     n = np.size(y)
     k = int(n/2)
-    y = np.transpose(np.square(abs(np.fft.rfft(y))[:k]))
+    y = (np.square(abs(np.fft.rfft(y))[:k]))
     pcp = np.zeros(12, dtype=float)
     fref = 130.8
     M = np.zeros(k)
@@ -22,7 +22,7 @@ def pcp(path) :
     for l in range(1, k) :
         M[l] = round(12*np.log2((fs/fref)*(l/n)))%12
     for i in range(0, 12) :
-        pcp[i] = np.dot(y, (M==(i*np.ones(k))))
+        pcp[i] = np.dot(y, M==i)
     pcp = pcp/sum(pcp)
     return pcp
 
@@ -31,7 +31,7 @@ def mPCP(y, fs) :
         y = convStoM(y)
     n = np.size(y)
     k = int(n/2)
-    y = np.transpose(np.square(abs(np.fft.rfft(y))[:k]))
+    y = (np.square(abs(np.fft.rfft(y))[:k]))
     pcp = np.zeros(12, dtype=float)
     fref = 130.8
     M = np.zeros(k)
@@ -39,7 +39,7 @@ def mPCP(y, fs) :
     for l in range(1, k) :
         M[l] = round(12*np.log2((fs/fref)*(l/n)))%12
     for i in range(0, 12) :
-        pcp[i] = np.dot(y, (M==(i*np.ones(k))))
+        pcp[i] = np.dot(y, M==i)
     pcp = pcp/sum(pcp)
     return pcp
 
