@@ -70,8 +70,8 @@ def chord_sequence(model, file) :
 
 def NtoC(n) :
     if n in range(1,11):
-    return N_to_C[n]    
+        return N_to_C[n]    
 
 def CtoN(c) :
-    if c in C_to_N.keys:
+    if c in C_to_N.keys():
         return C_to_N[c]
