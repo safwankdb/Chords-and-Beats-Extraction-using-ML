@@ -15,7 +15,7 @@ from sklearn.kernel_approximation import RBFSampler
 #because it can lead to overfitting of data
 
 file = str(input("Enter filename: "))
-t_chord = input("Enter true chord of the wav file: ")
+
 
 #Three stable versions of models are avaliable
 #trained_ML_model_ver1.sav
@@ -47,11 +47,19 @@ X = sampler.fit_transform(X)
 #predicts the chord of the file using the model you provide it with
 pred = myModel.predict(X)
 print("The model predicted chord to be: ", NtoC(pred[0]))
-true_value = np.array([CtoN(t_chord)])
+
 #Checks if there is any error with prediction and actual output
 #And if they differ it fits the true data with the PCP vector
 #The changed model is then resaved in the current model
+ans=input("Is the predicted chord correct?[yes|no]")
+if ans=='yes':
+	print('Thanks for using our program.')
+else:
+	print('We are sorry, please help us train the model further.')
+	print('Please enter correct the correct chord')
+	t_chord = input("Enter true chord of the wav file: ")
+	true_value = np.array([CtoN(t_chord)])
 if true_value != pred :
     myModel.partial_fit(X, true_value)
     pickle.dump(myModel, open('trained_ML_model_ver3.sav', 'wb'))
-
+    print('Our model has taken your input into account and corrected itself.')
