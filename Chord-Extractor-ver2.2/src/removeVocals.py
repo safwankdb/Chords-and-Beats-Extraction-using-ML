@@ -6,10 +6,14 @@ def remove(myAudioFile):
 		import filetype
 		fmt=filetype.guess(myAudioFile).extension
 	sound_stereo = AudioSegment.from_file(myAudioFile, format=fmt)
-	sound_monoL = sound_stereo.split_to_mono()[0]
-	sound_monoR = sound_stereo.split_to_mono()[1]
+	mono_list=sound_stereo.split_to_mono()
+	if len(mono_list)==1:
+		print('File contains Mono channel only. Can\'t operate')
+		return
+	sound_monoL = mono_list[0]
+	sound_monoR = mono_list[1]
 	sound_monoR_inv = sound_monoR.invert_phase()
 	sound_CentersOut = sound_monoL.overlay(sound_monoR_inv)
-	sound_CentersOut.export(myAudioFile[:-4] + 'nolyrics' + '.wav', format='wav')
-
-remove("numb.mp3")
+	sound_CentersOut.export(myAudioFile[:-4] + '-nolyrics' + '.wav', format='wav')
+file=input('File name\n')
+remove(file)

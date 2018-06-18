@@ -5,6 +5,7 @@ import pickle
 import numpy as np
 from sklearn.kernel_approximation import AdditiveChi2Sampler
 from scipy.signal import butter, lfilter
+import pydub
 #This contains various utilities required during our working
 
 N_to_C={1:'A',2:'Am',3:'Bm',4:'C',5:'D',6:'Dm',7:'E',8:'Em',9:'F',10:'G'}
@@ -12,6 +13,13 @@ C_to_N = {'A':1,'Am':2,'Bm':3,'C':4,'D':5,'Dm':6,'E':7,'Em':8,'F':9,'G':10}
 
 #Converts Stereo Audio to Mono Audio
 #Does it by simply averaging down the audio from left and right channels
+def convert(file,path='./'):
+	input = pydub.AudioSegment.from_mp3(file)
+	if file[-4:] == '.mp3':
+		file=file[:-4]
+	input = input.set_channels(1)
+	input.export(path+file+'.wav', format='wav')
+
 def convStoM(y) :
     y = y.astype(float)
     mono_y = y[:,0]/2 + y[:,1]/2
@@ -33,7 +41,13 @@ def mPCP(y, fs) :
         pcp[i] = np.dot(y, (M==(i*np.ones(k))))
     pcp = pcp/sum(pcp)
     return pcp
-
+"""
+ARPIT BHAI CHUTIYA GYA HAI KYA
+BHENCHOD YE KYA KYA DAAL DIA
+BUTTER SAMPLER LODA LASSAN
+BC SIGNAL PROCESSING KA SHAUK HAI
+TO CHALE JA BC ELEC CSP ME
+"""
 def bandpass(l, u, fs, order=5) :
     nyq = 0.5*fs
     low = l/nyq
