@@ -14,9 +14,9 @@ from sklearn.kernel_approximation import RBFSampler
 #because it can lead to overfitting of data
 
 file = str(input("Enter filename: "))
-file=file.rsplit('/')[-1]
-path='/'.join(file.rsplit('/')[:-1])
-print('path',path)
+#file=file.rsplit('/')[-1]
+#path='/'.join(file.rsplit('/')[:-1])
+#print('path',path)
 print('file',file)
 #Three stable versions of models are avaliable
 #'trained_ML_model_ver1.sav'
@@ -51,7 +51,7 @@ print("The model predicted chord to be: ", NtoC(pred[0]))
 #Checks if there is any error with prediction and actual output
 #And if they differ it fits the true data with the PCP vector
 #The changed model is then resaved in the current model
-ans=input("Is the predicted chord correct?[yes|no]")
+ans=input("Is the predicted chord correct?[yes|no]\n")
 if ans=='yes':
 	print('Thanks for using our program.')
 else:
@@ -59,7 +59,9 @@ else:
 	print('Please enter correct the correct chord')
 	t_chord = input("Enter true chord of the wav file: ")
 	true_value = np.array([CtoN(t_chord)])
-if true_value != pred :
-    myModel.partial_fit(X, true_value)
-    pickle.dump(myModel, open(prev_model, 'wb'))
-    print('Our model has taken your input into account and corrected itself.')
+	if true_value != pred:
+		myModel.partial_fit(X, true_value)
+		pickle.dump(myModel, open(prev_model, 'wb'))
+		print('Our model has taken your input into account and corrected itself.')
+	else:
+		print('You don\'t fool me. That\'s what I said.')
