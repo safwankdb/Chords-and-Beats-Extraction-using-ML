@@ -1,3 +1,9 @@
+'''
+Mohd Safwan
+Arpit Aggrawal
+Institute Project
+IIT Bombay
+'''
 import os
 import soundfile as sf
 import scipy.io.wavfile
@@ -30,7 +36,7 @@ def mPCP(y, fs) :
         y = convStoM(y)
     n = np.size(y)
     k = int(n/2)
-    y = np.transpose(np.square(abs(np.fft.rfft(y))[:k]))
+    y = (np.square(abs(np.fft.rfft(y))[:k]))
     pcp = np.zeros(12, dtype=float)
     fref = 130.8
     M = np.zeros(k)
@@ -39,6 +45,8 @@ def mPCP(y, fs) :
         M[l] = round(12*np.log2((fs/fref)*(l/n)))%12
     for i in range(0, 12) :
         pcp[i] = np.dot(y, (M==(i*np.ones(k))))
+    if sum(pcp)==0:
+        return np.zeros(12, dtype=float)
     pcp = pcp/sum(pcp)
     return pcp
 """
@@ -61,15 +69,26 @@ def bandpass_filter(data, llimit, ulimit, fs, order=5) :
 
 #Returns part of a file from a start time to the time the audio needs to played
 #The name of output file is given by name using the extension of output file
+
+# KYA FALTU FUNCTION BANAYA ARPIT NE BC
+#APUN NE COMMENT KR DIA
+
 def make_part(file, start, time, name) :
+    '''
     cmd = "C:/ffmpeg/bin/ffmpeg.exe -ss " +  start + " -t " + time + " -i " + file + " " + name
     os.system(cmd)
     return
-
+    '''
+    song=pydub.AudioSegment.from_wav(file)
+    part=song[int(float(start)*1000):int(float(start)*1000)+int(float(time)*1000)]
+    part.export(name,format='wav')
 #Returns all parts of file at a time interval of 0.1 seconds
 #Though we have refrained ourselves from using it in chord sequencing
 #due to memory issues with this function
 def all_part(file) :
+    #The commented part is really bad code written by Arpit.
+    #However I have fixed most of it.
+    '''
     f = sf.SoundFile(file)
     duration = len(f)/f.samplerate
     i = 0
@@ -78,13 +97,24 @@ def all_part(file) :
         make_part(file, str(i), "0.1", output_name)
         i += 0.1
     return
+    '''
+    song=pydub.AudioSegment.from_wav(file)
+    duration=song.duration_seconds*1000
+    i=0
+    while i+100 < duration:
+        output_name='output'+str(int(int(i*100)/10))+'.wav'
+        song[i:i+100].export('output_name',format='wav')
+        i+=100
+
 
 #Returns the chord in a file using the specified model
 def find_chord(model, file, code) :
     fs, y = scipy.io.wavfile.read(file)
-    X = mPCP(y, fs)
+    X = mPCP(y, fs).reshape(1,-1)
     sampler = AdditiveChi2Sampler()
-    X = np.array([X])
+    #X = np.array([X])
+    if sum(X)==0:
+        return'__'
     if code == 1 :
         X = sampler.fit_transform(X)
     pred = model.predict(X)
@@ -103,8 +133,7 @@ def analyse(file, model, code) :
         make_part(file, str(i), "0.2", o_name)
         i += 0.2
         all_chords.append(find_chord(model, o_name, code))
-        cmd = "del /f output.wav"
-        os.system(cmd)
+        os.remove("output.wav")
     return all_chords
 
 #It returns the sequence of chord in an audio file using the specified model
@@ -129,8 +158,7 @@ def chord_sequence(model, file, code) :
         final_chords.append(max(set(analysis), key= analysis.count))
         i += 0.6
         duration -= 0.6
-        cmd = "del /f foo.wav"
-        os.system(cmd)
+        os.remove("foo.wav")
     return final_chords
 #Maps numbers back to chord
 def NtoC(n) :
