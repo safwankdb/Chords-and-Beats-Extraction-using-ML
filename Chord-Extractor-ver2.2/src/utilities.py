@@ -106,7 +106,7 @@ def find_chord(model, file, code) :
     X = mPCP(y, fs).reshape(1,-1)
     sampler = AdditiveChi2Sampler()
     #X = np.array([X])
-    if sum(X)==0:
+    if sum(X[0])==0:
         return'__'
     if code == 1 :
         X = sampler.fit_transform(X)
