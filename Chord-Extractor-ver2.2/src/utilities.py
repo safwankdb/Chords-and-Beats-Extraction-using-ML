@@ -49,13 +49,7 @@ def mPCP(y, fs) :
         return np.zeros(12, dtype=float)
     pcp = pcp/sum(pcp)
     return pcp
-"""
-ARPIT BHAI CHUTIYA GYA HAI KYA
-BHENCHOD YE KYA KYA DAAL DIA
-BUTTER SAMPLER LODA LASSAN
-BC SIGNAL PROCESSING KA SHAUK HAI
-TO CHALE JA BC ELEC CSP ME
-"""
+
 def bandpass(l, u, fs, order=5) :
     nyq = 0.5*fs
     low = l/nyq
@@ -70,8 +64,6 @@ def bandpass_filter(data, llimit, ulimit, fs, order=5) :
 #Returns part of a file from a start time to the time the audio needs to played
 #The name of output file is given by name using the extension of output file
 
-# KYA FALTU FUNCTION BANAYA ARPIT NE BC
-#APUN NE COMMENT KR DIA
 
 def make_part(file, start, time, name) :
     '''
@@ -110,6 +102,7 @@ def all_part(file) :
 #Returns the chord in a file using the specified model
 def find_chord(model, file, code) :
     fs, y = scipy.io.wavfile.read(file)
+    y = bandpass_filter(y, 20, 7000, fs, order=5)
     X = mPCP(y, fs).reshape(1,-1)
     sampler = AdditiveChi2Sampler()
     #X = np.array([X])
@@ -128,10 +121,10 @@ def analyse(file, model, code) :
     duration = len(f) / f.samplerate
     i = 0
     all_chords = []
-    while i + 0.2 <= duration:
+    while i + 0.5 <= duration:
         o_name = "output.wav"
-        make_part(file, str(i), "0.2", o_name)
-        i += 0.2
+        make_part(file, str(i), "0.5", o_name)
+        i += 0.5
         all_chords.append(find_chord(model, o_name, code))
         os.remove("output.wav")
     return all_chords
@@ -146,18 +139,18 @@ def chord_sequence(model, file, code) :
     final_chords = []
     while duration > 0 :
         o_name = "foo.wav"
-        if duration > 0.6 :
-            make_part(file, str(i), "0.6", o_name)
+        if duration > 1.5 :
+            make_part(file, str(i), "1.5", o_name)
         else :
-            if duration > 0.3 :
+            if duration > 0.5 :
                 make_part(file, str(i), str(duration), o_name)
             else :
                 final_chords.append("null")
                 break
         analysis = analyse(o_name, model, code)
         final_chords.append(max(set(analysis), key= analysis.count))
-        i += 0.6
-        duration -= 0.6
+        i += 0.5
+        duration -= 0.5
         os.remove("foo.wav")
     return final_chords
 #Maps numbers back to chord
