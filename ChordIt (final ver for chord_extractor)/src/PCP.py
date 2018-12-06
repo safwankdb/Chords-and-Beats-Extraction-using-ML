@@ -19,7 +19,7 @@ def pcp(path) :
     n = np.size(y)
     k = int(n/2)
     y = (np.square(abs(np.fft.rfft(y))[:k]))
-    pcp = np.zeros(12, dtype=float64)
+    pcp = np.zeros(12)
     fref = 130.8
     M = np.zeros(k)
     M[0] = -1
