@@ -1,7 +1,6 @@
 '''
 Mohd Safwan
 Arpit Aggrawal
-Satvik Mashkaria
 Institute Project
 IIT Bombay
 '''
@@ -131,7 +130,7 @@ def all_part(file):
     i = 0
     while i + 100 < duration:
         output_name = 'output' + str(int(int(i * 100) / 10)) + '.wav'
-        song[i:i + 100].export('output_name', format='wav')
+        song[i:i + 100].export(output_name, format='wav')
         i += 100
 
 
